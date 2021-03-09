@@ -103,10 +103,11 @@ const targetObserver = (binding, changes) => {
   })
 }
 
-const createRemoteCaret = (username, color) => {
+const createRemoteCaret = (username, color, clientId) => {
   const caret = document.createElement('span')
   caret.classList.add('remote-caret')
   caret.setAttribute('style', `border-color: ${color}`)
+  caret.setAttribute('data-clientid', clientId)
   const userDiv = document.createElement('div')
   userDiv.setAttribute('style', `background-color: ${color}`)
   userDiv.insertBefore(document.createTextNode(username), null)
@@ -163,7 +164,7 @@ const updateRemoteSelection = (y, cm, type, cursors, clientId, awareness) => {
       from = anchorpos
       to = headpos
     }
-    const caretEl = createRemoteCaret(user.name, user.color)
+    const caretEl = createRemoteCaret(user.name, user.color, clientId)
     // if position was "relatively" the same, do not show name again and hide instead
     if (m && func.equalityFlat(aw.cursor.anchor, m.awCursor.anchor) && func.equalityFlat(aw.cursor.head, m.awCursor.head)) {
       caretEl.classList.add('hide-name')
